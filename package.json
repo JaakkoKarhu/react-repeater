@@ -1,7 +1,7 @@
 {
   "name": "React repeater",
   "version": "0.1.0",
-  "description": "Repeatable React forms... or actually repeatable everything",
+  "description": "Repeatable React components",
   "keywords": [
     "react",
     "react-component"

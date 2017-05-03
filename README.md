@@ -1,6 +1,6 @@
 # React-Truncator
 
-Repeatable React forms
+Repeatable React components
 
 ## Development
 
