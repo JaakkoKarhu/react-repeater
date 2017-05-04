@@ -1,10 +1,12 @@
 import React from 'react';
 
-import Starter from '../../src';
+import Repeater from '../../src';
 
 const App = () => (
   <div>
-    <Starter />
+    <Repeater>
+      <h3>Repeated text</h3>
+    </Repeater>
   </div>
 );
 
