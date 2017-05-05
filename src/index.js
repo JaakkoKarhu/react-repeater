@@ -2,9 +2,7 @@
  * TODO
  *
  * - Return input value for parent
- * - Test: default render
  * - Test: all types of nested children
- * - Test: return data to collect method
  * - Test: passing down data as props will render it
  */
 

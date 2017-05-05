@@ -1,14 +1,28 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import Starter from '../src/index';
+import Repeater from '../src/index';
 
-test('Starter has text', () => {
+test('Basic rendering test', () => {
 
-  const starter = shallow(
-    <Starter />
-  );
+  const repeater = shallow(
+    <Repeater />
+  )
+  expect(repeater).toMatchSnapshot()
+})
 
-  expect(starter.text()).toEqual('React Component Boilerplate');
-  
-});
+test('Returns mapped data to passed callback function onChange', () => {
+  // Not sure if this test is a bit silly
+  let receivedData = {}
+  const onChange = (e, data) => {
+    receivedData = data
+  }
+  const wrapper = shallow(
+    <Repeater>
+      <input dataKey='test-key'
+             onChange={ onChange } />
+    </Repeater>
+  )
+  wrapper.find('input').simulate('change', { target: { value: 'a' }})
+  expect(receivedData[0]['test-key']).toBe('a')
+})
