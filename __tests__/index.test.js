@@ -17,12 +17,24 @@ test('Returns mapped data to passed callback function onChange', () => {
   const onChange = (e, data) => {
     receivedData = data
   }
-  const wrapper = shallow(
+  const repeater = shallow(
     <Repeater>
       <input dataKey='test-key'
              onChange={ onChange } />
     </Repeater>
   )
-  wrapper.find('input').simulate('change', { target: { value: 'a' }})
+  repeater.find('input').simulate('change', { target: { value: 'a' }})
   expect(receivedData[0]['test-key']).toBe('a')
+})
+
+test('Maps passed data to inputs', () => {
+  const value = 'This is mapped value.',
+        data = [{ 'test-key': value }]
+  const repeater = shallow(
+    <Repeater data={ data }>
+      <input dataKey='test-key' />
+    </Repeater>
+  )
+  const input = repeater.find('input')
+  expect(input.node.props.value).toBe(value)
 })

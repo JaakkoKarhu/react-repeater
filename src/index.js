@@ -17,7 +17,8 @@ import React from 'react'
 
 class Repeater extends React.Component {
   static propTypes = {
-    collect: PropTypes.func
+    collect: PropTypes.func,
+    data: PropTypes.array
   }
 
   constructor(props) {
@@ -25,6 +26,11 @@ class Repeater extends React.Component {
     this.state = {
       dataValues: [{}]
     }
+  }
+
+  componentWillMount = () => {
+    const { data } = this.props
+    if (data) this.setState({ dataValues: data })
   }
 
   add = () => {

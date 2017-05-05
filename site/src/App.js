@@ -8,7 +8,7 @@ const collect = (data) => {
 const onChange = (e, data) => {
   // console.log('App.js', '-->', e.target.value, data);
 }
-
+const value = 'This is mapped value.'
 const App = () => (
   /* Non-standard dom attributes are stripped away from inputs in
    * Repeater

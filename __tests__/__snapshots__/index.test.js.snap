@@ -39,6 +39,7 @@ ShallowWrapper {
       "_instance": Repeater {
         "_reactInternalInstance": [Circular],
         "add": [Function],
+        "componentDidMount": [Function],
         "context": Object {},
         "getElems": [Function],
         "onChange": [Function],
