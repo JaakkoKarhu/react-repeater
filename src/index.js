@@ -5,7 +5,14 @@
  * - Test: default render
  * - Test: all types of nested children
  * - Test: return data to collect method
+ * - Test: passing down data as props will render it
  */
+
+
+const isFunction = (f) => {
+  const getType = {}
+  return f && getType.toString.call(f) === '[object Function]'
+}
 
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -30,6 +37,7 @@ class Repeater extends React.Component {
     const nDataValues = [ ...this.state.dataValues ]
     nDataValues[index][dataKey] = e.target.value
     this.setState({ dataValues: nDataValues })
+    if (isFunction(cb)) cb(e, nDataValues)
   }
 
   getElems = () => {
