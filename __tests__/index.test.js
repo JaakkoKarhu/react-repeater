@@ -34,6 +34,20 @@ describe('Basic render tests', () => {
   })
 })
 
+describe('Initialisation tests', () => {
+  test('Return default||null value on init', () => {
+    const repeater = shallow(
+      <Repeater>
+        <input dataKey='test-key-1' />
+        <input dataKey='test-key-2'
+               value='test-value' />
+      </Repeater>
+    )
+    expect(repeater.state('dataValues')[0]['test-key-1']).toBe(null)
+    expect(repeater.state('dataValues')[0]['test-key-2']).toBe('test-value')
+  })
+})
+
 test('Returns mapped data to passed callback function onChange', () => {
   // Not sure if this test is a bit silly
   let receivedData = {}
