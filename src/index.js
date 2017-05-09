@@ -1,8 +1,6 @@
 /*
  * TODO
  * 
- * - Collect data structure in init
- * - Add is not submit to getElems
  * - Test: checkbox and radio on init
  * - Test: returned data structure has to be same as the one which is entered?
  * - Test special cases for all input prop-types
@@ -17,7 +15,6 @@
  *
  * Non-collectable:
  *
- * (Doesn't need a dataKey)
  * - Button
  * - Image
  * - Reset
@@ -51,22 +48,18 @@ const isFunction = (f) => {
   return f && getType.toString.call(f) === '[object Function]'
 }
 
-const getInitialValue = (inputType, propValue) => {
+const getInitialValue = (inputType, propValue, checked) => {
   if (['checkbox', 'radio'].indexOf(inputType) > -1) {
-    return null
+    return checked ? propValue : null
   } else {
-    return null
+    return propValue || null
   }
 }
 
 const getValue = (inputType, propValue, mappedValue) => {
   switch (inputType) {
     case 'checkbox':
-    case 'button':
-    case 'image': // Not tested
     case 'radio':
-    case 'reset':
-    case 'submit':
       return propValue
       break
     case 'color':
@@ -95,7 +88,7 @@ class Repeater extends React.Component {
     if (data) this.setState({ dataValues: data })
     const initValues = (children, index) => {
       return React.Children.map(children, (child) => {
-        const { dataKey, value} = child.props,
+        const { dataKey, value, checked} = child.props,
               inputType = child.props.type,
               isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1)
         if (child.type=='input'&&!dataKey) {
@@ -104,7 +97,7 @@ class Repeater extends React.Component {
           console.warn('[react-repeater]:Input is missing dataKey. Data cannot be mapped to state properly. Please add dataKey prop to child element.')
         } else if (child.type=='input'&&isNotSubmit) {
           const nDataValues = [ ...this.state.dataValues ]
-          nDataValues[index][dataKey] = getInitialValue(inputType, value )
+          nDataValues[index][dataKey] = getInitialValue(inputType, value, checked )
         }
       })
     }
@@ -139,14 +132,15 @@ class Repeater extends React.Component {
     const copyChildren = (children, index) => {
       return React.Children.map(children, (child) => {
         const propsCp = { ...child.props },
-              { dataKey, onChange } = propsCp
+              { dataKey, onChange } = propsCp,
+              inputType = propsCp.type,
+              isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1)
         propsCp.children = copyChildren(propsCp.children, index)
         // Check the case for arrays as well?
         if (child.type=='input'&&!dataKey) {
           console.warn('[react-repeater]:Input is missing dataKey. Data cannot be mapped to state properly. Please add dataKey prop to child element.')
-        } else if (child.type=='input') {
-          const inputType = propsCp.type,
-                { value } = propsCp,
+        } else if (child.type=='input'&&isNotSubmit) {
+          const { value } = propsCp,
                 nValue = getValue(inputType, value, dataValues[index][dataKey])
           propsCp.onChange = (e) => this.onChange(e, index, dataKey, inputType, onChange)
           propsCp.value = nValue
