@@ -1,14 +1,37 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { shallow } from 'enzyme'
 
 import Repeater from '../src/index';
 
-test('Basic rendering test', () => {
+describe('Basic render tests', () => {
 
-  const repeater = shallow(
-    <Repeater />
-  )
-  expect(repeater).toMatchSnapshot()
+  test('Repeater', () => {
+    const div = document.createElement('div')
+    ReactDOM.render(<Repeater />, div)
+  })
+
+  test('Repeater with input', () => {
+    const div = document.createElement('div')
+    ReactDOM.render(
+      <Repeater>
+        <input dataKey="test-key" />
+      </Repeater>,
+      div
+    )
+  })
+
+  test('Repeater with nested input', () => {
+    const div = document.createElement('div')
+    ReactDOM.render(
+      <Repeater>
+        <span>
+          <input dataKey="test-key" />
+        </span>
+      </Repeater>,
+      div
+    )
+  })
 })
 
 test('Returns mapped data to passed callback function onChange', () => {
