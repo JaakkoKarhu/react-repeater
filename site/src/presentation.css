@@ -65,10 +65,13 @@ html, body {
 }
 
 .presentation-content {
+  overflow: scroll;
   padding: 15px;
   margin-left: 200px;
   background-color: #F9F9F7;
   top: 0;
+  right: 0;
+  left: 0;
   position: fixed;
   bottom: 0;
 }

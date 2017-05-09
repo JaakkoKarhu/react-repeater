@@ -1,6 +1,7 @@
 /*
  * TODO
  * 
+ * - Add functionality for textarea
  * - Add delete buttons
  * - Add delete buttons location propType?
  * - Write following examples:
