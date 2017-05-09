@@ -49,6 +49,9 @@
   text-transform: uppercase;
   font-size: 12px;
   margin-right: 7.5px;
+  width: 80px;
+  display: inline-block;
+  text-align: right;
 }
 
 .repeater-input-row {

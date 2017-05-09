@@ -21,6 +21,16 @@ html, body {
   font-weight: 700;
   line-height: 31px;
 }
+[class^="presentation"] h2 {
+  color: #E65F5C;
+  font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 15.4px;
+}
 [class^="presentation"] h3 {
   font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
   font-size: 14px;
@@ -29,7 +39,8 @@ html, body {
   font-weight: 500;
   line-height: 15.4px;
 }
-[class^="presentation"] p {
+[class^="presentation"] p,
+[class^="presentation"] li {
   font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
   font-size: 14px;
   font-style: normal;
@@ -61,7 +72,17 @@ html, body {
   width: 200px;
   height: 100%;
   background-color: #313638;
-  color: #E4B363;
+  color: #E8C07F;
+}
+
+.presentation-sidebar li {
+  text-transform: uppercase;
+  font-size: 12px;
+  list-style-type: none;
+}
+
+.presentation-sidebar li.active {
+  text-decoration: underline;
 }
 
 .presentation-content {
@@ -74,4 +95,30 @@ html, body {
   left: 0;
   position: fixed;
   bottom: 0;
+}
+
+[class^="presentation-section"] {
+  overflow: hidden;
+  float: left;
+}
+
+.presentation-section-50 {
+  width: 50%;
+}
+
+.presentation-well-json {
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 15px;
+  color: #F6F6F3;
+  width: 100%;
+  display: block;
+  height: auto;
+  background-color: #121415;
+  font-family: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;
+  font-size: 14px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 1.25;
 }

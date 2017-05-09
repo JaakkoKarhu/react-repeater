@@ -2,6 +2,9 @@
  * TODO
  * 
  * - Add functionality for textarea
+ * - Make presentation codewell
+ * - Make sure that button dataKeys are not required
+ * - Test: two repeater entries
  * - Add delete buttons
  * - Add delete buttons location propType?
  * - Write following examples:
