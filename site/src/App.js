@@ -18,6 +18,10 @@ const App = () => (
       <h3>Repeated text</h3>
       <input dataKey='sample-input'
              onChange={ onChange } />
+      <span>
+        <input dataKey='sample-nested-input'
+               onChange={ onChange } />
+      </span>
       <input type='button'
              dataKey='sample-button'
              onChange={ onChange }
