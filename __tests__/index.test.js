@@ -35,6 +35,7 @@ describe('Basic render tests', () => {
 })
 
 describe('Initialisation tests', () => {
+
   test('Return default||null value on init of basic inputs', () => {
     const repeater = shallow(
       <Repeater>
@@ -46,6 +47,7 @@ describe('Initialisation tests', () => {
     expect(repeater.state('dataValues')[0]['test-key-1']).toBe(null)
     expect(repeater.state('dataValues')[0]['test-key-2']).toBe('test-value')
   })
+
   test('Return default||null wether checked or not on radio & checkbox', () => {
     const repeater = shallow(
       <Repeater>
@@ -83,6 +85,57 @@ describe('Initialisation tests', () => {
     expect(repeater.state('dataValues')[0]['checkbox-not-checked']).toBe(null)
     expect(repeater.state('dataValues')[0]['checkbox-checked']).toBe('checkbox-value')
   })
+
+  test('Maps passed data to inputs', () => {
+    const value = 'This is mapped value.',
+          data = [{ 'test-key': value }]
+    const repeater = shallow(
+      <Repeater data={ data }>
+        <input dataKey='test-key' />
+      </Repeater>
+    )
+    const input = repeater.find('input')
+    expect(input.node.props.value).toBe(value)
+  })
+
+  test('Set checked for radio & checkbox if default data is passed', () => {
+    const checkboxValue = 'Mapped checkbox value',
+          radioValue = 'Mapped radio value',
+          data = [{
+            'checkbox-key-1': checkboxValue,
+            'radio-key': radioValue
+          }]
+    const repeater = shallow(
+      <Repeater data={ data }>
+       { /* Checkboxses */ } 
+        <input type='checkbox'
+               name='checkbox-1'
+               dataKey='checkbox-key-1'
+               value={ checkboxValue } />
+        <input type='checkbox'
+               name='checkbox-2'
+               dataKey='checkbox-key-2'
+               value='Another mapped value' />
+        { /* Radios */ }
+        <input type='radio'
+               name='radio-1'
+               dataKey='radio-key'
+               value={ radioValue } />
+        <input type='radio'
+               name='radio-2'
+               dataKey='radio-key'
+               value={ 'Another radio value' } />
+      </Repeater>
+    )
+    const checkbox1 = repeater.find('input[name="checkbox-1"]'),
+          checkbox2 = repeater.find('input[name="checkbox-2"]'),
+          radio1 = repeater.find('input[name="radio-1"]'),
+          radio2 = repeater.find('input[name="radio-2"]')
+    expect(checkbox1.node.props.checked).toBe(true)
+    expect(checkbox2.node.props.checked).toBe(undefined)
+    expect(radio1.node.props.checked).toBe(true)
+    expect(radio2.node.props.checked).toBe(undefined)
+  })
 })
 
 describe('Functionality tests', () => {
@@ -100,17 +153,5 @@ describe('Functionality tests', () => {
     )
     repeater.find('input').simulate('change', { target: { value: 'a' }})
     expect(receivedData[0]['test-key']).toBe('a')
-  })
-
-  test('Maps passed data to inputs', () => {
-    const value = 'This is mapped value.',
-          data = [{ 'test-key': value }]
-    const repeater = shallow(
-      <Repeater data={ data }>
-        <input dataKey='test-key' />
-      </Repeater>
-    )
-    const input = repeater.find('input')
-    expect(input.node.props.value).toBe(value)
   })
 })
