@@ -1,12 +1,10 @@
 /*
  * TODO
  * 
- * - Test: checkbox and radio on init
- * - Test: returned data structure has to be same as the one which is entered?
- * - Test special cases for all input prop-types
- * - Use default input values, when they are not empty
  * - Add delete buttons
  * - Add delete buttons location propType?
+ * - Write following examples:
+ * - - With all possible input types
  * - Add githup site for presenting
  * - Should the initial values be null or an empty string?
  * - Write docs
@@ -134,7 +132,8 @@ class Repeater extends React.Component {
         const propsCp = { ...child.props },
               { dataKey, onChange } = propsCp,
               inputType = propsCp.type,
-              isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1)
+              isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1),
+              isToggle = (['checkbox', 'radio'].indexOf(inputType) > -1)
         propsCp.children = copyChildren(propsCp.children, index)
         // Check the case for arrays as well?
         if (child.type=='input'&&!dataKey) {
@@ -144,6 +143,10 @@ class Repeater extends React.Component {
                 nValue = getValue(inputType, value, dataValues[index][dataKey])
           propsCp.onChange = (e) => this.onChange(e, index, dataKey, inputType, onChange)
           propsCp.value = nValue
+        }
+        // Check if radio||checkbox should be checked according to passed data
+        if (isToggle&&dataValues[index][dataKey]===propsCp.value&&!propsCp.checked) {
+          propsCp.checked = true
         }
         delete propsCp.dataKey // Not sure if this is a good idea instead of using data-key
         return child.type
