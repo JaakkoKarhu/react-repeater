@@ -13,19 +13,6 @@ const getIntendedJSON = (data) => {
     if(a!=splitted.length-1) arr.push('\u00a0\u00a0')
   }
   return arr
-
-  //let arr2 = []
-
-  // for(var i=0; i < arr.length-1; i++ ) {
-  //   let str = arr[i]
-  //   if (str=='--'&&arr[i-1]=='--') {
-  //     arr2[arr2.length-1] = arr2[arr2.length-1] + '--'
-  //   } else if (arr[i-1]=='--') {
-  //     arr2[arr2.length-1] = arr2[arr2.length-1] + str
-  //   } else {
-  //     arr2.push(str)
-  //   }
-  // } 
 }
 
 class AllInputsExample extends React.Component {

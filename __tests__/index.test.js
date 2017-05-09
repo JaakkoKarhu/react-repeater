@@ -132,9 +132,9 @@ describe('Initialisation tests', () => {
           radio1 = repeater.find('input[name="radio-1"]'),
           radio2 = repeater.find('input[name="radio-2"]')
     expect(checkbox1.node.props.checked).toBe(true)
-    expect(checkbox2.node.props.checked).toBe(undefined)
+    expect(checkbox2.node.props.checked).toBe(false)
     expect(radio1.node.props.checked).toBe(true)
-    expect(radio2.node.props.checked).toBe(undefined)
+    expect(radio2.node.props.checked).toBe(false)
   })
 })
 

@@ -2,7 +2,6 @@
  * TODO
  * 
  * - Add functionality for textarea
- * - Make presentation codewell
  * - Make sure that button dataKeys are not required
  * - Test: two repeater entries
  * - Add delete buttons
@@ -85,13 +84,16 @@ class Repeater extends React.Component {
     }
   }
 
-  componentWillMount = () => {
-    const { data, children } = this.props
-    if (data) this.setState({ dataValues: data })
+  init = () => {
+    const { children } = this.props
     const initValues = (children, index) => {
       return React.Children.map(children, (child) => {
-        const { dataKey, value, checked} = child.props,
-              inputType = child.props.type,
+        /* Spreading here to avoid undefined errors.
+         * Probably not the most efficient way.
+         */
+        const propsCp = { ...child.props },
+              { dataKey, value, checked} = propsCp,
+              inputType = propsCp.type,
               isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1)
         if (child.type=='input'&&!dataKey) {
           // Note that child type is different than input type passed as prop
@@ -101,6 +103,7 @@ class Repeater extends React.Component {
           const nDataValues = [ ...this.state.dataValues ]
           nDataValues[index][dataKey] = getInitialValue(inputType, value, checked )
         }
+        if (propsCp.children) initValues(propsCp.children, index)
       })
     }
     for (let i = 0; this.state.dataValues.length > i; i++) {
@@ -108,8 +111,14 @@ class Repeater extends React.Component {
     }
   }
 
+  componentWillMount = () => {
+    const { data } = this.props
+    if (data) this.setState({ dataValues: data })
+    this.init()
+  }
+
   add = () => {
-    this.setState({ dataValues: [ ...this.state.dataValues, {} ] })
+    this.setState({ dataValues: [ ...this.state.dataValues, {} ] }, this.init)
   }
 
   onChange = (e, index, dataKey, inputType, cb) => {
@@ -149,8 +158,10 @@ class Repeater extends React.Component {
           propsCp.value = nValue
         }
         // Check if radio||checkbox should be checked according to passed data
-        if (isToggle&&dataValues[index][dataKey]===propsCp.value&&!propsCp.checked) {
+        if (isToggle&&dataValues[index][dataKey]===propsCp.value) {
           propsCp.checked = true
+        } else {
+          propsCp.checked = false
         }
         delete propsCp.dataKey // Not sure if this is a good idea instead of using data-key
         return child.type
