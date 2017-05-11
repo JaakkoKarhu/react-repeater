@@ -2,6 +2,8 @@
 
 Repeatable React components
 
+Examples: [jaakkokarhu.github.io/react-repeater](https://jaakkokarhu.github.io/react-repeater)
+
 ## Development
 
 The development environment is already setup and ready to go (hot-loading and linting included!)
