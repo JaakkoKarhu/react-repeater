@@ -107,7 +107,7 @@ describe('Initialisation tests', () => {
           }]
     const repeater = shallow(
       <Repeater data={ data }>
-       { /* Checkboxses */ } 
+       { /* Checkboxes */ } 
         <input type='checkbox'
                name='checkbox-1'
                dataKey='checkbox-key-1'
@@ -153,5 +153,20 @@ describe('Functionality tests', () => {
     )
     repeater.find('input').simulate('change', { target: { value: 'a' }})
     expect(receivedData[0]['test-key']).toBe('a')
+  })
+
+  test('Works with textarea as well - maps data', () => {
+    let receivedData = {}
+    const onChange = (e, data) => {
+      receivedData = data
+    }
+    const repeater = shallow(
+      <Repeater>
+        <textarea dataKey='test-key'
+                  onChange={ onChange } />
+      </Repeater>
+    )
+    repeater.find('textarea').simulate('change', { target: { value: 'works'}})
+    expect(receivedData[0]['test-key']).toBe('works')
   })
 })

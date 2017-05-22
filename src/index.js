@@ -3,12 +3,13 @@
  * 
  * - Add functionality for textarea
  * - Make sure that button dataKeys are not required
- * - Test: two repeater entries
+ * - Test: two inputs of a same type
  * - Add delete buttons
  * - Add delete buttons location propType?
  * - Write following examples:
  * - - With all possible input types
- * - Add githup site for presenting
+ * - Nested repeater
+ * - With Bootstrap
  * - Should the initial values be null or an empty string?
  * - Write docs
  *
@@ -47,6 +48,11 @@ import React from 'react'
 const isFunction = (f) => {
   const getType = {}
   return f && getType.toString.call(f) === '[object Function]'
+}
+
+const isMappable = (t) => {
+
+  return t=='input'||t=='textarea'
 }
 
 const getInitialValue = (inputType, propValue, checked) => {
@@ -95,11 +101,11 @@ class Repeater extends React.Component {
               { dataKey, value, checked} = propsCp,
               inputType = propsCp.type,
               isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1)
-        if (child.type=='input'&&!dataKey) {
+        if (isMappable(child.type)&&!dataKey) {
           // Note that child type is different than input type passed as prop
           // Print details about the child, to make it more easy to find
           console.warn('[react-repeater]:Input is missing dataKey. Data cannot be mapped to state properly. Please add dataKey prop to child element.')
-        } else if (child.type=='input'&&isNotSubmit) {
+        } else if (isMappable(child.type)&&isNotSubmit) {
           const nDataValues = [ ...this.state.dataValues ]
           nDataValues[index][dataKey] = getInitialValue(inputType, value, checked )
         }
@@ -149,9 +155,9 @@ class Repeater extends React.Component {
               isToggle = (['checkbox', 'radio'].indexOf(inputType) > -1)
         propsCp.children = copyChildren(propsCp.children, index)
         // Check the case for arrays as well?
-        if (child.type=='input'&&!dataKey) {
+        if (isMappable(child.type)&&!dataKey) {
           console.warn('[react-repeater]:Input is missing dataKey. Data cannot be mapped to state properly. Please add dataKey prop to child element.')
-        } else if (child.type=='input'&&isNotSubmit) {
+        } else if (isMappable(child.type)&&isNotSubmit) {
           const { value } = propsCp,
                 nValue = getValue(inputType, value, dataValues[index][dataKey])
           propsCp.onChange = (e) => this.onChange(e, index, dataKey, inputType, onChange)

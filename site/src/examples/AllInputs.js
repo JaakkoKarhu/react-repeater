@@ -24,7 +24,7 @@ class AllInputs extends React.Component {
         <h1>Repeater</h1>
         <div className="presentation-section-50">
           <Repeater>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-input'>
                 Input:
               </label>
@@ -32,7 +32,7 @@ class AllInputs extends React.Component {
                      name='sample-input'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-input'>
                 Button:
               </label>
@@ -42,7 +42,7 @@ class AllInputs extends React.Component {
                      onChange={ onChange }
                      value='Button' />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-checkbox'>
                 Checkbox:
               </label>
@@ -52,7 +52,7 @@ class AllInputs extends React.Component {
                      value='sample-checkbox-1'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-color'>
                 Color:
               </label>
@@ -62,7 +62,7 @@ class AllInputs extends React.Component {
                      value='#fc6548'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-date'>
                 Date:
               </label>
@@ -71,7 +71,7 @@ class AllInputs extends React.Component {
                      dataKey='sample-date'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-datetime-local'>
                 Datetime local:
               </label>
@@ -80,7 +80,7 @@ class AllInputs extends React.Component {
                      dataKey='sample-datetime-local'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label>
                 Email:
               </label>
@@ -89,7 +89,7 @@ class AllInputs extends React.Component {
                      name='sample-email'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-file'>
                 File:
               </label>
@@ -98,7 +98,7 @@ class AllInputs extends React.Component {
                      name='sample-file'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-hidden'>
                 Hidden:
               </label>
@@ -107,7 +107,7 @@ class AllInputs extends React.Component {
                      name='sample-hidden'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-image'>
                 Image:
               </label>
@@ -116,7 +116,7 @@ class AllInputs extends React.Component {
                      name='sample-image'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-month'>
                 Month:
               </label>
@@ -125,7 +125,7 @@ class AllInputs extends React.Component {
                      name='sample-month'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-number'>
                 Number:
               </label>  
@@ -134,7 +134,7 @@ class AllInputs extends React.Component {
                      name='sample-number'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-password'>
                 Password:
               </label>
@@ -143,7 +143,7 @@ class AllInputs extends React.Component {
                      name='sample-password'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-radio'>
                 Radio:
               </label>
@@ -159,7 +159,7 @@ class AllInputs extends React.Component {
                      value='sample-radio-2'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-range'>
                 Range:
               </label>
@@ -168,7 +168,7 @@ class AllInputs extends React.Component {
                      name='sample-range'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-reset'>
                 Reset:
               </label>
@@ -178,7 +178,7 @@ class AllInputs extends React.Component {
                      value='Reset button'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-search'>
                 Search:
               </label>
@@ -187,7 +187,7 @@ class AllInputs extends React.Component {
                      name='sample-search'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-submit'>
                 Submit:
               </label>
@@ -197,7 +197,7 @@ class AllInputs extends React.Component {
                      value='Submit button'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-tel'>
                 Tel:
               </label>
@@ -206,7 +206,7 @@ class AllInputs extends React.Component {
                      name='sample-tel'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-text'>
                 Text:
               </label>
@@ -215,7 +215,15 @@ class AllInputs extends React.Component {
                      name='sample-text'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
+              <label>
+                Textarea element (not a type):
+              </label>
+              <textarea dataKey='sample-textarea'
+                        name='sample-textarea'
+                        onChange={ onChange } />
+            </div>
+            <div className='repeater-input-row'>
               <label htmlFor='sample-time'>
                 Time:
               </label>
@@ -224,7 +232,7 @@ class AllInputs extends React.Component {
                      name='sample-time'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-url'>
                 Url:
               </label>
@@ -233,7 +241,7 @@ class AllInputs extends React.Component {
                      name='sample-url'
                      onChange={ onChange } />
             </div>
-            <div className="repeater-input-row">
+            <div className='repeater-input-row'>
               <label htmlFor='sample-week'>
                 Week:
               </label>

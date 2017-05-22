@@ -39,7 +39,8 @@
   font-size: 14px;
 }
 
-.repeater input {
+.repeater input,
+.repeater textarea {
   min-width: 200px;
   margin-bottom: 15px;
 }
