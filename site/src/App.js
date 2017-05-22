@@ -13,13 +13,6 @@ const isActive = (location, pathname) => {
   return location.pathname==pathname
 }
 
-class AllInputsor extends React.Component {
-
-  render() {
-    return <div>LOLLLOO</div>
-  }
-}
-
 class App extends React.Component {
 
   constructor(props) {
