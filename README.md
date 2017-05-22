@@ -1,4 +1,4 @@
-# React-Truncator
+# React-Repeater
 
 Repeatable React components
 
