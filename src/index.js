@@ -1,13 +1,9 @@
 /*
  * TODO
  * 
- * - Add functionality for textarea
- * - Make sure that button dataKeys are not required
  * - Test: two inputs of a same type
  * - Add delete buttons
  * - Add delete buttons location propType?
- * - Write following examples:
- * - - With all possible input types
  * - Nested repeater
  * - With Bootstrap
  * - Should the initial values be null or an empty string?
@@ -51,7 +47,6 @@ const isFunction = (f) => {
 }
 
 const isMappable = (t) => {
-
   return t=='input'||t=='textarea'
 }
 
@@ -97,11 +92,12 @@ class Repeater extends React.Component {
         /* Spreading here to avoid undefined errors.
          * Probably not the most efficient way.
          */
+
         const propsCp = { ...child.props },
               { dataKey, value, checked} = propsCp,
               inputType = propsCp.type,
               isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1)
-        if (isMappable(child.type)&&!dataKey) {
+        if (isMappable(child.type)&&isNotSubmit&&!dataKey) {
           // Note that child type is different than input type passed as prop
           // Print details about the child, to make it more easy to find
           console.warn('[react-repeater]:Input is missing dataKey. Data cannot be mapped to state properly. Please add dataKey prop to child element.')
@@ -155,7 +151,7 @@ class Repeater extends React.Component {
               isToggle = (['checkbox', 'radio'].indexOf(inputType) > -1)
         propsCp.children = copyChildren(propsCp.children, index)
         // Check the case for arrays as well?
-        if (isMappable(child.type)&&!dataKey) {
+        if (isMappable(child.type)&&isNotSubmit&&!dataKey) {
           console.warn('[react-repeater]:Input is missing dataKey. Data cannot be mapped to state properly. Please add dataKey prop to child element.')
         } else if (isMappable(child.type)&&isNotSubmit) {
           const { value } = propsCp,

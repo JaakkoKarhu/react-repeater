@@ -21,7 +21,7 @@ class AllInputs extends React.Component {
     const { onChange } = this
     return (
       <section>
-        <h1>Repeater</h1>
+        <h1>All possible inputs</h1>
         <div className="presentation-section-50">
           <Repeater>
             <div className='repeater-input-row'>
@@ -38,7 +38,6 @@ class AllInputs extends React.Component {
               </label>
               <input type='button'
                      name='sample-button'
-                     dataKey='sample-button'
                      onChange={ onChange }
                      value='Button' />
             </div>
@@ -112,7 +111,6 @@ class AllInputs extends React.Component {
                 Image:
               </label>
               <input type='image'
-                     dataKey='sample-image'
                      name='sample-image'
                      onChange={ onChange } />
             </div>
@@ -173,7 +171,6 @@ class AllInputs extends React.Component {
                 Reset:
               </label>
               <input type='reset'
-                     dataKey='sample-reset'
                      name='sample-reset'
                      value='Reset button'
                      onChange={ onChange } />
@@ -192,7 +189,6 @@ class AllInputs extends React.Component {
                 Submit:
               </label>
               <input type='submit'
-                     dataKey='sample-submit'
                      name='sample-submit'
                      value='Submit button'
                      onChange={ onChange } />

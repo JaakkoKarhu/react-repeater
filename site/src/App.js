@@ -1,4 +1,5 @@
-import AllInputs from './examples/AllInputs.js'
+import AllInputs from './examples/AllInputs'
+import BirthdayPartyParticipants from './examples/BirthdayPartyParticipants'
 import React from 'react'
 import Repeater from '../../src'
 import './style.css'
@@ -29,15 +30,23 @@ class App extends React.Component {
             <ul>
               <li>
                 <NavLink to='all-inputs'
-                       isActive={(m, loc) => isActive(loc, '/all-inputs')}
-                       activeClassName='active'>
+                         isActive={(m, loc) => isActive(loc, '/all-inputs')}
+                         activeClassName='active'>
                   All inputs
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to='birthday-party-participants'
+                         isActive={(m, loc) => isActive(loc, '/birthday-party-participants') }
+                         activeClassName='active'>
+                  Birthday party participants
                 </NavLink>
               </li>
             </ul>
           </div>
           <div className='presentation-content'>
             <Route path='/all-inputs' component={ AllInputs } />
+            <Route path='/birthday-party-participants' component={ BirthdayPartyParticipants } />
           </div>
         </section>
       </Router>
