@@ -72,16 +72,21 @@ html, body {
   width: 200px;
   height: 100%;
   background-color: #313638;
-  color: #E8C07F;
 }
 
-.presentation-sidebar li {
+.presentation-sidebar li,
+.presentation-sidebar li a {
+  line-height: 1.15;
+  margin-bottom: 7.5px;
+  text-decoration: none;
   text-transform: uppercase;
   font-size: 12px;
   list-style-type: none;
+  color: #E8C07F;
 }
 
-.presentation-sidebar li.active {
+.presentation-sidebar li.active,
+.presentation-sidebar li a.active {
   text-decoration: underline;
 }
 
