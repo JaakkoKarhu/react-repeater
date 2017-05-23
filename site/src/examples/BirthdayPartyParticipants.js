@@ -11,19 +11,17 @@ class BirthdDayParticipants extends React.Component {
     }
   }
 
-  onChange = (e, data) => {
-    this.setState({
-      data
-    })
-  }
+  onChange = (e, data) => this.setState({ data })
+
+  onAdd = (data) => this.setState({ data })
 
   render() {
-    const { onChange } = this
+    const { onChange, onAdd } = this
     return (
       <section>
         <h1>Birthday participants</h1>
         <div className='presentation-section-50'>
-          <Repeater>
+          <Repeater onAdd={ onAdd }>
             <div className='repeater-input-row'>
               <input data-rpt-key='guest-name'
                      onChange={ onChange } />

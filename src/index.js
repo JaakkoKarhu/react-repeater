@@ -74,7 +74,8 @@ const getValue = (inputType, propValue, mappedValue) => {
 class Repeater extends React.Component {
   static propTypes = {
     collect: PropTypes.func,
-    data: PropTypes.array
+    data: PropTypes.array,
+    onAdd: PropTypes.func
   }
 
   constructor(props) {
@@ -121,7 +122,16 @@ class Repeater extends React.Component {
   }
 
   add = () => {
-    this.setState({ dataValues: [ ...this.state.dataValues, {} ] }, () => this.mapEmptyValuesToCell(this.state.dataValues.length-1))
+    const { onAdd } = this.props
+    const afterSetState = () => {
+      const { dataValues } = this.state
+      this.mapEmptyValuesToCell(dataValues.length-1)
+      if (isFunction(onAdd)) onAdd(dataValues)
+    }
+    this.setState(
+    {
+      dataValues: [ ...this.state.dataValues, {} ]
+    }, afterSetState)
   }
 
   onChange = (e, index, rptKey, inputType, cb) => {
