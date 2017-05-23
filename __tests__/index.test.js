@@ -168,7 +168,7 @@ describe('Functionality tests', () => {
     expect(receivedData[0]['test-key']).toBe('works')
   })
 
-  test('Deletes row when clicking delete button', () => {
+  test('Deletes cell when clicking delete button', () => {
     let receivedData = []
     const data = [
       {
