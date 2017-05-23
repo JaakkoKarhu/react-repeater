@@ -25,9 +25,11 @@ class BirthdDayParticipants extends React.Component {
         <div className='presentation-section-50'>
           <Repeater>
             <div className='repeater-input-row'>
-              <input dataKey='guest-name'
+              <input data-rpt-key='guest-name'
                      onChange={ onChange } />
             </div>
+            <div className='repeater-delete'
+                 data-rpt-delete={ true } />
           </Repeater>
         </div>
         <div className='presentation-section-50'>

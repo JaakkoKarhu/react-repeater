@@ -15,7 +15,7 @@ describe('Basic render tests', () => {
     const div = document.createElement('div')
     ReactDOM.render(
       <Repeater>
-        <input dataKey="test-key" />
+        <input data-rpt-key="test-key" />
       </Repeater>,
       div
     )
@@ -26,7 +26,7 @@ describe('Basic render tests', () => {
     ReactDOM.render(
       <Repeater>
         <span>
-          <input dataKey="test-key" />
+          <input data-rpt-key="test-key" />
         </span>
       </Repeater>,
       div
@@ -39,8 +39,8 @@ describe('Initialisation tests', () => {
   test('Return default||null value on init of basic inputs', () => {
     const repeater = shallow(
       <Repeater>
-        <input dataKey='test-key-1' />
-        <input dataKey='test-key-2'
+        <input data-rpt-key='test-key-1' />
+        <input data-rpt-key='test-key-2'
                value='test-value' />
       </Repeater>
     )
@@ -54,28 +54,28 @@ describe('Initialisation tests', () => {
         { /* Radio: Option not checked */ }
         <input type='radio'
                name='radio-no-option-checked'
-               dataKey='radio-no-option-checked'
+               data-rpt-key='radio-no-option-checked'
                value='radio-value-1' />
         <input type='radio'
                name='radio-no-option-checked'
-               dataKey='radio-no-option-checked'
+               data-rpt-key='radio-no-option-checked'
                value='radio-value-2' />
         { /* Radio: One option checked */ } 
         <input type='radio'
                name='radio-option-checked'
-               dataKey='radio-option-checked'
+               data-rpt-key='radio-option-checked'
                value='radio-value-1' />
         <input type='radio'
                name='radio-option-checked'
-               dataKey='radio-option-checked'
+               data-rpt-key='radio-option-checked'
                checked
                value='radio-value-2' />
         { /* Checkbox */ }
         <input type='checkbox'
-               dataKey='checkbox-not-checked'
+               data-rpt-key='checkbox-not-checked'
                value='checkbox-value' />
         <input type='checkbox'
-               dataKey='checkbox-checked'
+               data-rpt-key='checkbox-checked'
                checked
                value='checkbox-value' />
       </Repeater>
@@ -91,7 +91,7 @@ describe('Initialisation tests', () => {
           data = [{ 'test-key': value }]
     const repeater = shallow(
       <Repeater data={ data }>
-        <input dataKey='test-key' />
+        <input data-rpt-key='test-key' />
       </Repeater>
     )
     const input = repeater.find('input')
@@ -110,20 +110,20 @@ describe('Initialisation tests', () => {
        { /* Checkboxes */ } 
         <input type='checkbox'
                name='checkbox-1'
-               dataKey='checkbox-key-1'
+               data-rpt-key='checkbox-key-1'
                value={ checkboxValue } />
         <input type='checkbox'
                name='checkbox-2'
-               dataKey='checkbox-key-2'
+               data-rpt-key='checkbox-key-2'
                value='Another mapped value' />
         { /* Radios */ }
         <input type='radio'
                name='radio-1'
-               dataKey='radio-key'
+               data-rpt-key='radio-key'
                value={ radioValue } />
         <input type='radio'
                name='radio-2'
-               dataKey='radio-key'
+               data-rpt-key='radio-key'
                value={ 'Another radio value' } />
       </Repeater>
     )
@@ -147,7 +147,7 @@ describe('Functionality tests', () => {
     }
     const repeater = shallow(
       <Repeater>
-        <input dataKey='test-key'
+        <input data-rpt-key='test-key'
                onChange={ onChange } />
       </Repeater>
     )
@@ -156,17 +156,38 @@ describe('Functionality tests', () => {
   })
 
   test('Works with textarea as well - maps data', () => {
-    let receivedData = {}
-    const onChange = (e, data) => {
-      receivedData = data
-    }
+    let receivedData = []
+    const onChange = (e, data) => receivedData = data
     const repeater = shallow(
       <Repeater>
-        <textarea dataKey='test-key'
+        <textarea data-rpt-key='test-key'
                   onChange={ onChange } />
       </Repeater>
     )
     repeater.find('textarea').simulate('change', { target: { value: 'works'}})
     expect(receivedData[0]['test-key']).toBe('works')
+  })
+
+  test('Deletes row when clicking delete button', () => {
+    let receivedData = []
+    const data = [
+      {
+        'test-key': 'value 1'
+      },
+      {
+        'test-key': 'value 2'
+      }
+    ]
+    const onClick = (e, data) => receivedData = data
+    const repeater = shallow(
+      <Repeater data={ data }>
+        <div className='delete'
+             data-rpt-delete={ true }
+             onClick={ onClick } />
+      </Repeater>
+    )
+    repeater.find('.delete').first().simulate('click')
+    expect(receivedData.length).toBe(1)
+    expect(receivedData[0]['test-key']).toBe('value 2')
   })
 })

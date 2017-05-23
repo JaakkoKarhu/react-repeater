@@ -28,7 +28,7 @@ class AllInputs extends React.Component {
               <label htmlFor='sample-input'>
                 Input:
               </label>
-              <input dataKey='sample-input'
+              <input data-rpt-key='sample-input'
                      name='sample-input'
                      onChange={ onChange } />
             </div>
@@ -46,7 +46,7 @@ class AllInputs extends React.Component {
                 Checkbox:
               </label>
               <input type='checkbox'
-                     dataKey='sample-checkbox'
+                     data-rpt-key='sample-checkbox'
                      name='sample-checkbox'
                      value='sample-checkbox-1'
                      onChange={ onChange } />
@@ -56,7 +56,7 @@ class AllInputs extends React.Component {
                 Color:
               </label>
               <input type='color'
-                     dataKey='sample-color'
+                     data-rpt-key='sample-color'
                      name='sample-color'
                      value='#fc6548'
                      onChange={ onChange } />
@@ -67,7 +67,7 @@ class AllInputs extends React.Component {
               </label>
               <input type='date'
                      name='sample-date'
-                     dataKey='sample-date'
+                     data-rpt-key='sample-date'
                      onChange={ onChange } />
             </div>
             <div className='repeater-input-row'>
@@ -76,7 +76,7 @@ class AllInputs extends React.Component {
               </label>
               <input type='datetime-local'
                      name='sample-datetime-local'
-                     dataKey='sample-datetime-local'
+                     data-rpt-key='sample-datetime-local'
                      onChange={ onChange } />
             </div>
             <div className='repeater-input-row'>
@@ -84,7 +84,7 @@ class AllInputs extends React.Component {
                 Email:
               </label>
               <input type='email'
-                     dataKey='sample-email'
+                     data-rpt-key='sample-email'
                      name='sample-email'
                      onChange={ onChange } />
             </div>
@@ -93,7 +93,7 @@ class AllInputs extends React.Component {
                 File:
               </label>
               <input type='file'
-                     dataKey='sample-file'
+                     data-rpt-key='sample-file'
                      name='sample-file'
                      onChange={ onChange } />
             </div>
@@ -102,7 +102,7 @@ class AllInputs extends React.Component {
                 Hidden:
               </label>
               <input type='hidden'
-                     dataKey='sample-hidden'
+                     data-rpt-key='sample-hidden'
                      name='sample-hidden'
                      onChange={ onChange } />
             </div>
@@ -119,7 +119,7 @@ class AllInputs extends React.Component {
                 Month:
               </label>
               <input type='month'
-                     dataKey='sample-month'
+                     data-rpt-key='sample-month'
                      name='sample-month'
                      onChange={ onChange } />
             </div>
@@ -128,7 +128,7 @@ class AllInputs extends React.Component {
                 Number:
               </label>  
               <input type='number'
-                     dataKey='sample-number'
+                     data-rpt-key='sample-number'
                      name='sample-number'
                      onChange={ onChange } />
             </div>
@@ -137,7 +137,7 @@ class AllInputs extends React.Component {
                 Password:
               </label>
               <input type='password'
-                     dataKey='sample-password'
+                     data-rpt-key='sample-password'
                      name='sample-password'
                      onChange={ onChange } />
             </div>
@@ -147,13 +147,13 @@ class AllInputs extends React.Component {
               </label>
               <input type='radio'
                      name='sample-radio'
-                     dataKey='sample-radio'
+                     data-rpt-key='sample-radio'
                      value='sample-radio-1'
                      onChange={ onChange } />
               <input type='radio'
                      name='sample-radio'
                      checked
-                     dataKey='sample-radio'
+                     data-rpt-key='sample-radio'
                      value='sample-radio-2'
                      onChange={ onChange } />
             </div>
@@ -162,7 +162,7 @@ class AllInputs extends React.Component {
                 Range:
               </label>
               <input type='range'
-                     dataKey='sample-range'
+                     data-rpt-key='sample-range'
                      name='sample-range'
                      onChange={ onChange } />
             </div>
@@ -180,7 +180,7 @@ class AllInputs extends React.Component {
                 Search:
               </label>
               <input type='search'
-                     dataKey='sample-search'
+                     data-rpt-key='sample-search'
                      name='sample-search'
                      onChange={ onChange } />
             </div>
@@ -198,7 +198,7 @@ class AllInputs extends React.Component {
                 Tel:
               </label>
               <input type='tel'
-                     dataKey='sample-tel'
+                     data-rpt-key='sample-tel'
                      name='sample-tel'
                      onChange={ onChange } />
             </div>
@@ -207,7 +207,7 @@ class AllInputs extends React.Component {
                 Text:
               </label>
               <input type='text'
-                     dataKey='sample-text'
+                     data-rpt-key='sample-text'
                      name='sample-text'
                      onChange={ onChange } />
             </div>
@@ -215,7 +215,7 @@ class AllInputs extends React.Component {
               <label>
                 Textarea element (not a type):
               </label>
-              <textarea dataKey='sample-textarea'
+              <textarea data-rpt-key='sample-textarea'
                         name='sample-textarea'
                         onChange={ onChange } />
             </div>
@@ -224,7 +224,7 @@ class AllInputs extends React.Component {
                 Time:
               </label>
               <input type='time'
-                     dataKey='sample-time'
+                     data-rpt-key='sample-time'
                      name='sample-time'
                      onChange={ onChange } />
             </div>
@@ -233,7 +233,7 @@ class AllInputs extends React.Component {
                 Url:
               </label>
               <input type='url'
-                     dataKey='sample-url'
+                     data-rpt-key='sample-url'
                      name='sample-url'
                      onChange={ onChange } />
             </div>
@@ -242,7 +242,7 @@ class AllInputs extends React.Component {
                 Week:
               </label>
               <input type='week'
-                     dataKey='sample-week'
+                     data-rpt-key='sample-week'
                      name='sample-week'
                      onChange={ onChange } />
             </div>

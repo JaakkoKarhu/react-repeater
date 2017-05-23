@@ -1,9 +1,8 @@
 /*
  * TODO
  * 
+ * - Fix: enter data to new input swipes the rest bug
  * - Test: two inputs of a same type
- * - Add delete buttons
- * - Add delete buttons location propType?
  * - Nested repeater
  * - With Bootstrap
  * - Should the initial values be null or an empty string?
@@ -94,16 +93,17 @@ class Repeater extends React.Component {
          */
 
         const propsCp = { ...child.props },
-              { dataKey, value, checked} = propsCp,
+              { value, checked} = propsCp,
               inputType = propsCp.type,
+              rptKey = propsCp['data-rpt-key'],
               isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1)
-        if (isMappable(child.type)&&isNotSubmit&&!dataKey) {
+        if (isMappable(child.type)&&isNotSubmit&&!rptKey) {
           // Note that child type is different than input type passed as prop
           // Print details about the child, to make it more easy to find
-          console.warn('[react-repeater]:Input is missing dataKey. Data cannot be mapped to state properly. Please add dataKey prop to child element.')
+          console.warn('[react-repeater]:Input is missing rptKey. Data cannot be mapped to state properly. Please add rptKey prop to child element.')
         } else if (isMappable(child.type)&&isNotSubmit) {
           const nDataValues = [ ...this.state.dataValues ]
-          nDataValues[index][dataKey] = getInitialValue(inputType, value, checked )
+          nDataValues[index][rptKey] = getInitialValue(inputType, value, checked )
         }
         if (propsCp.children) initValues(propsCp.children, index)
       })
@@ -123,18 +123,26 @@ class Repeater extends React.Component {
     this.setState({ dataValues: [ ...this.state.dataValues, {} ] }, this.init)
   }
 
-  onChange = (e, index, dataKey, inputType, cb) => {
+  onChange = (e, index, rptKey, inputType, cb) => {
     /* Make switch statement here to check the type,
      * store input value accordingly
      *
      */
     const nDataValues = [ ...this.state.dataValues ]
     if (inputType=='checkbox'&&!e.target.checked) {
-      nDataValues[index][dataKey] = ''
+      nDataValues[index][rptKey] = ''
     } else {
-      nDataValues[index][dataKey] = e.target.value // Assign here instead of reading the e directly
+      nDataValues[index][rptKey] = e.target.value // Assign here instead of reading the e directly
     }
     this.setState({ dataValues: nDataValues })
+    if (isFunction(cb)) cb(e, nDataValues)
+  }
+
+  onDelete = (e, index, cb) => {
+    const nDataValues = [ ...this.state.dataValues ]
+    nDataValues.splice(index, 1)
+    this.setState({ dataValues: nDataValues })
+    console.log(nDataValues)
     if (isFunction(cb)) cb(e, nDataValues)
   }
 
@@ -145,27 +153,30 @@ class Repeater extends React.Component {
     const copyChildren = (children, index) => {
       return React.Children.map(children, (child) => {
         const propsCp = { ...child.props },
-              { dataKey, onChange } = propsCp,
+              { onChange, onClick } = propsCp,
+              rptKey = propsCp['data-rpt-key'],
+              isDelete = propsCp['data-rpt-delete'],
               inputType = propsCp.type,
               isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1),
               isToggle = (['checkbox', 'radio'].indexOf(inputType) > -1)
         propsCp.children = copyChildren(propsCp.children, index)
         // Check the case for arrays as well?
-        if (isMappable(child.type)&&isNotSubmit&&!dataKey) {
-          console.warn('[react-repeater]:Input is missing dataKey. Data cannot be mapped to state properly. Please add dataKey prop to child element.')
+        if (isMappable(child.type)&&isNotSubmit&&!rptKey) {
+          console.warn('[react-repeater]:Input is missing data-rpt-key. Data cannot be mapped to state properly. Please add rptKey prop to child element.')
         } else if (isMappable(child.type)&&isNotSubmit) {
           const { value } = propsCp,
-                nValue = getValue(inputType, value, dataValues[index][dataKey])
-          propsCp.onChange = (e) => this.onChange(e, index, dataKey, inputType, onChange)
+                nValue = getValue(inputType, value, dataValues[index][rptKey])
+          propsCp.onChange = (e) => this.onChange(e, index, rptKey, inputType, onChange)
           propsCp.value = nValue
+        } else if (isDelete) {
+          propsCp.onClick = (e) => this.onDelete(e, index, onClick)
         }
         // Check if radio||checkbox should be checked according to passed data
-        if (isToggle&&dataValues[index][dataKey]===propsCp.value) {
+        if (isToggle&&dataValues[index][rptKey]===propsCp.value) {
           propsCp.checked = true
         } else {
           propsCp.checked = false
         }
-        delete propsCp.dataKey // Not sure if this is a good idea instead of using data-key
         return child.type
                ? React.createElement(child.type, { ...propsCp } )
                : child
