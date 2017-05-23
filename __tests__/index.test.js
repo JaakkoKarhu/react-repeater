@@ -236,4 +236,26 @@ describe('Functionality tests', () => {
     expect(receivedData[2]['test-key']).toBe('d')
     expect(receivedData[3]['test-key']).toBe('b')
   })
+
+  test('Validation rule sets desired prop', () => {
+    const rule1 = (cellData) => {
+      const testKey1 = cellData['test-key-1']
+      if(testKey1!=null&&testKey1.length>1) {
+        return 'Error'
+      } else {
+        return ''
+      }
+    }
+    const repeater = shallow(
+      <Repeater>
+        <div className='error-text-1'
+             data-rpt-validation={ { children: rule1 } } />
+        <input className='input-1'
+               data-rpt-key='test-key-1'/>
+      </Repeater>
+    )
+    expect(repeater.find('.error-text-1').text()).toBe('')
+    repeater.find('.input-1').simulate('change', { target: { value: 'ab'}})
+    expect(repeater.find('.error-text-1').text()).toBe('Error')
+  })
 })

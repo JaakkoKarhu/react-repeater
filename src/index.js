@@ -172,6 +172,7 @@ class Repeater extends React.Component {
               isDelete = propsCp['data-rpt-delete'],
               isAddAbove = propsCp['data-rpt-add-above'],
               isAddBelow = propsCp['data-rpt-add-below'],
+              validation = propsCp['data-rpt-validation'],
               inputType = propsCp.type,
               isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1),
               isToggle = (['checkbox', 'radio'].indexOf(inputType) > -1)
@@ -192,6 +193,14 @@ class Repeater extends React.Component {
         }
         if (isAddBelow){
           propsCp.onClick = () => this.onAdd(index+1)
+        }
+        // Needs comments
+        if (validation) {
+          for(let prop in validation) {
+            const cb = validation[prop],
+                  cellData = dataValues[index]
+            if(isFunction(cb)) propsCp[prop] = cb(cellData)
+          }
         }
         // Check if radio||checkbox should be checked according to passed data
         if (isToggle&&dataValues[index][rptKey]===propsCp.value) {
