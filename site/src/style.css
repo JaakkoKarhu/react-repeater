@@ -1,3 +1,6 @@
+.repeater {
+  padding: 10px;
+}
 .repeater-add:after {
   content: '+';
   position: absolute;
@@ -17,6 +20,64 @@
   height: 30px;
   border: solid thin #B5D99C;
   border-radius: 100%;
+}
+
+.repeater-add-above,
+.repeater-add-below {
+  width: 22px;
+  height: 22px;
+  display: block;
+  background-color: green;
+  position: absolute;
+  right: 0;
+  border-radius: 100%;
+  display: none;
+}
+
+.repeater-add-above {
+  top: -11px;
+}
+
+.repeater-add-below {
+  bottom: -11px;
+}
+
+.repeater-cell {
+  padding-right: 30px;
+  display: block;
+  position: relative;
+  border: solid thin green;
+  margin-bottom: 5px;
+}
+
+.repeater-cell:hover [class^="repeater-add"],
+.repeater-cell:hover [class^="repeater-delete"] {
+  cursor: pointer;
+  display: block;
+}
+
+.repeater-delete {
+  display: block;
+  width: 22px;
+  height: 22px;
+  background-color: salmon;
+  position: absolute;
+  border-radius: 100%;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.repeater-delete:after {
+  content: '\2013';
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: whitesmoke;
 }
 .repeater-add:hover {
   cursor: pointer;
@@ -41,8 +102,7 @@
 
 .repeater input,
 .repeater textarea {
-  min-width: 200px;
-  margin-bottom: 15px;
+  width: 100%;
 }
 
 .repeater label {
@@ -56,5 +116,12 @@
 }
 
 .repeater-input-row {
+  position: relative;
+  border: solid thin blue;
+  margin-top: 7.5px;
+  margin-bottom: 7.5px;
+}
 
+.repeater-input-row:last-child {
+  border: solid thin red;
 }

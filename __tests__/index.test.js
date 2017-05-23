@@ -171,12 +171,8 @@ describe('Functionality tests', () => {
   test('Deletes cell when clicking delete button', () => {
     let receivedData = []
     const data = [
-      {
-        'test-key': 'value 1'
-      },
-      {
-        'test-key': 'value 2'
-      }
+      { 'test-key': 'value 1' },
+      { 'test-key': 'value 2' }
     ]
     const onClick = (e, data) => receivedData = data
     const repeater = shallow(
@@ -189,5 +185,55 @@ describe('Functionality tests', () => {
     repeater.find('.delete').first().simulate('click')
     expect(receivedData.length).toBe(1)
     expect(receivedData[0]['test-key']).toBe('value 2')
+  })
+
+  test('Maps empty values when adding new cells, returns correct data', () => {
+    let receivedData = []
+    const data = [{ 'test-key': 'value 1' }]
+    const onAdd = (data) => receivedData = data
+    const repeater = shallow(
+      <Repeater data={ data }
+                onAdd={ onAdd }>
+        <input data-rpt-key='test-key' />
+      </Repeater>
+    )
+    /* Test that data structure persist even on complex user interaction
+     */
+    repeater.find('.repeater-add').simulate('click')
+    expect(receivedData.length).toBe(2)
+    repeater.find('input').at(1).simulate('change', { target: { value: 'works' }})
+    repeater.find('.repeater-add').simulate('click').simulate('click')
+    repeater.find('input').last().simulate('change', { target: { value: 'works too' }})
+    expect(receivedData.length).toBe(4)
+    expect(receivedData[1]['test-key']).toBe('works')
+    expect(receivedData[3]['test-key']).toBe('works too')
+  })
+
+  test('Add cell above and below, return correct data', () => {
+    let receivedData = []
+    const data = [
+      { 'test-key': 'a' },
+      { 'test-key': 'b' }
+    ]
+    const onAdd = (data) => receivedData = data
+    const repeater = shallow(
+      <Repeater data={ data }
+                onAdd={ onAdd }>
+        <input data-rpt-key='test-key' />
+        <div className='repeater-add-above'
+             data-rpt-add-above />
+        <div className='repeater-add-below'
+             data-rpt-add-below />
+      </Repeater>
+    )
+    repeater.find('.repeater-add-above').at(1).simulate('click')
+    repeater.find('input').at(1).simulate('change', { target: { value: 'c'}})
+    repeater.find('.repeater-add-below').at(1).simulate('click')
+    repeater.find('input').at(2).simulate('change', { target: { value: 'd'}})
+    expect(receivedData.length).toBe(4)
+    expect(receivedData[0]['test-key']).toBe('a')
+    expect(receivedData[1]['test-key']).toBe('c')
+    expect(receivedData[2]['test-key']).toBe('d')
+    expect(receivedData[3]['test-key']).toBe('b')
   })
 })

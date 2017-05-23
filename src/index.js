@@ -1,10 +1,12 @@
 /*
  * TODO
  * 
- * - Fix: enter data to new input swipes the rest bug
- * - Test: two inputs of a same type
+ * - Add validation rule proptype/callback?
  * - Nested repeater
+ * - Complex conditional repeater?
+ * - Test: two inputs of a same type
  * - With Bootstrap
+ * - Callback
  * - Should the initial values be null or an empty string?
  * - Write docs
  *
@@ -121,16 +123,18 @@ class Repeater extends React.Component {
     this.init()
   }
 
-  add = () => {
-    const { onAdd } = this.props
+  onAdd = (index) => {
+    const { onAdd } = this.props,
+          nDataValues = [ ...this.state.dataValues ]
     const afterSetState = () => {
       const { dataValues } = this.state
-      this.mapEmptyValuesToCell(dataValues.length-1)
+      this.mapEmptyValuesToCell(index)
       if (isFunction(onAdd)) onAdd(dataValues)
     }
+    nDataValues.splice(index, 0, {})
     this.setState(
     {
-      dataValues: [ ...this.state.dataValues, {} ]
+      dataValues: nDataValues
     }, afterSetState)
   }
 
@@ -153,7 +157,6 @@ class Repeater extends React.Component {
     const nDataValues = [ ...this.state.dataValues ]
     nDataValues.splice(index, 1)
     this.setState({ dataValues: nDataValues })
-    console.log(nDataValues)
     if (isFunction(cb)) cb(e, nDataValues)
   }
 
@@ -167,6 +170,8 @@ class Repeater extends React.Component {
               { onChange, onClick } = propsCp,
               rptKey = propsCp['data-rpt-key'],
               isDelete = propsCp['data-rpt-delete'],
+              isAddAbove = propsCp['data-rpt-add-above'],
+              isAddBelow = propsCp['data-rpt-add-below'],
               inputType = propsCp.type,
               isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1),
               isToggle = (['checkbox', 'radio'].indexOf(inputType) > -1)
@@ -181,6 +186,12 @@ class Repeater extends React.Component {
           propsCp.value = nValue
         } else if (isDelete) {
           propsCp.onClick = (e) => this.onDelete(e, index, onClick)
+        }
+        if (isAddAbove){
+          propsCp.onClick = () => this.onAdd(index) 
+        }
+        if (isAddBelow){
+          propsCp.onClick = () => this.onAdd(index+1)
         }
         // Check if radio||checkbox should be checked according to passed data
         if (isToggle&&dataValues[index][rptKey]===propsCp.value) {
@@ -201,16 +212,16 @@ class Repeater extends React.Component {
   }
 
   render() {
-    let { add } = this
+    const { onAdd } = this,
+          { dataValues } = this.state
     return (
       <div className={ `repeater` }>
         { this.getElems() }
         <div className={ `repeater-add` } // Convert to button
-             onClick={ add } />
+             onClick={ () => onAdd(dataValues.length) } />
       </div>
     )
   }
-
 }
 
 export default Repeater
