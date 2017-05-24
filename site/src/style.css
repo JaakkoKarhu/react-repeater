@@ -110,9 +110,13 @@
   text-transform: uppercase;
   font-size: 12px;
   margin-right: 7.5px;
-  width: 80px;
   display: inline-block;
+}
+
+.repeater label:not('.form-control') {
+  width: 80px;
   text-align: right;
+
 }
 
 .repeater-input-row {

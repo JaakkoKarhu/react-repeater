@@ -39,6 +39,7 @@
  * ------------------------------------
  */
 
+import Children from 'react-children-utilities';
 import PropTypes from 'prop-types'
 import React from 'react'
 
@@ -73,6 +74,12 @@ const getValue = (inputType, propValue, mappedValue) => {
   }
 }
 
+const testingTheDeepMapping = (children) => {
+  const deepMap = Children.deepForEach(children, (child)=> {
+    console.log(child)
+  })
+}
+
 class Repeater extends React.Component {
   static propTypes = {
     collect: PropTypes.func,
@@ -88,11 +95,11 @@ class Repeater extends React.Component {
   }
 
   mapEmptyValuesToCell = (index, children=this.props.children) => {
+    testingTheDeepMapping(children)
     return React.Children.map(children, (child) => {
       /* Spreading here to avoid undefined errors.
        * Probably not the most efficient way.
        */
-
       const propsCp = { ...child.props },
             { value, checked} = propsCp,
             inputType = propsCp.type,
