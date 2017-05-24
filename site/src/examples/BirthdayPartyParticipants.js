@@ -31,8 +31,6 @@ class BirthdDayParticipants extends React.Component {
                    data-rpt-delete={ true } />
               <div className='repeater-add-above'
                    data-rpt-add-above />
-              <div className='repeater-add-below'
-                   data-rpt-add-below />
             </div>
           </Repeater>
         </div>

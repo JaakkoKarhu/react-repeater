@@ -1,7 +1,6 @@
 /*
  * TODO
- * 
- * - Add validation rule proptype/callback?
+ *
  * - Nested repeater
  * - Complex conditional repeater?
  * - Test: two inputs of a same type
@@ -18,7 +17,7 @@
  * - Image
  * - Reset
  * - Submit
- * 
+ *
  * Default prop value static:
  *
  * - Button
@@ -67,7 +66,7 @@ const getValue = (inputType, propValue, mappedValue) => {
       break
     case 'color':
       return mappedValue || '#ffffff'
-      break;
+      break
     default:
       return mappedValue || ''
   }
@@ -87,12 +86,36 @@ class Repeater extends React.Component {
     }
   }
 
+  componentWillMount = () => {
+    const { data } = this.props
+    if (data) this.setState({ dataValues: data })
+    for (let i=0; this.state.dataValues.length > i; i++) {
+      this.mapEmptyValuesToCell(i)
+    }
+  }
+
+  onAdd = (index) => {
+    const { onAdd } = this.props,
+          nDataValues = [ ...this.state.dataValues ]
+
+    const afterSetState = () => {
+      const { dataValues } = this.state
+      this.mapEmptyValuesToCell(index)
+      if (isFunction(onAdd)) onAdd(dataValues)
+    }
+
+    nDataValues.splice(index, 0, {})
+    this.setState(
+      {
+        dataValues: nDataValues
+      }, afterSetState)
+  }
+
   mapEmptyValuesToCell = (index, children=this.props.children) => {
     return React.Children.map(children, (child) => {
       /* Spreading here to avoid undefined errors.
        * Probably not the most efficient way.
        */
-
       const propsCp = { ...child.props },
             { value, checked} = propsCp,
             inputType = propsCp.type,
@@ -108,34 +131,6 @@ class Repeater extends React.Component {
       }
       if (propsCp.children) this.mapEmptyValuesToCell(index, propsCp.children)
     })
-  }
-
-  init = (i = 0) => {
-    const { children } = this.props
-    for (i; this.state.dataValues.length > i; i++) {
-      this.mapEmptyValuesToCell(i)
-    }
-  }
-
-  componentWillMount = () => {
-    const { data } = this.props
-    if (data) this.setState({ dataValues: data })
-    this.init()
-  }
-
-  onAdd = (index) => {
-    const { onAdd } = this.props,
-          nDataValues = [ ...this.state.dataValues ]
-    const afterSetState = () => {
-      const { dataValues } = this.state
-      this.mapEmptyValuesToCell(index)
-      if (isFunction(onAdd)) onAdd(dataValues)
-    }
-    nDataValues.splice(index, 0, {})
-    this.setState(
-    {
-      dataValues: nDataValues
-    }, afterSetState)
   }
 
   onChange = (e, index, rptKey, inputType, cb) => {
@@ -164,6 +159,7 @@ class Repeater extends React.Component {
     const { dataValues } = this.state,
           elems = [],
           { props } = this
+
     const copyChildren = (children, index) => {
       return React.Children.map(children, (child) => {
         const propsCp = { ...child.props },
@@ -188,20 +184,33 @@ class Repeater extends React.Component {
         } else if (isDelete) {
           propsCp.onClick = (e) => this.onDelete(e, index, onClick)
         }
-        if (isAddAbove){
-          propsCp.onClick = () => this.onAdd(index) 
+        if (isAddAbove) {
+          propsCp.onClick = () => this.onAdd(index)
         }
-        if (isAddBelow){
+        if (isAddBelow) {
           propsCp.onClick = () => this.onAdd(index+1)
         }
-        // Needs comments
-        if (validation) {
-          for(let prop in validation) {
+        /* Two ways to pass validation: object with prop key and function OR
+         * Function which returns prop key and a value
+         */
+        if (validation&&typeof validation==='object') {
+          for(const prop in validation) {
             const cb = validation[prop],
                   cellData = dataValues[index]
             if(isFunction(cb)) propsCp[prop] = cb(cellData)
           }
+        } else if (validation&&isFunction(validation)) {
+          const cellData = dataValues[index],
+                validationProps = validation(cellData)
+          if (typeof validationProps!=='object') {
+            console.warn('[react-repeater]:Validation function does not return object.')
+          } else {
+            for(const prop in validationProps) {
+              propsCp[prop] = validationProps[prop]
+            }
+          }
         }
+        delete propsCp['data-rpt-validation']
         // Check if radio||checkbox should be checked according to passed data
         if (isToggle&&dataValues[index][rptKey]===propsCp.value) {
           propsCp.checked = true
@@ -214,7 +223,7 @@ class Repeater extends React.Component {
       })
     }
     for (let i = 0; dataValues.length > i; i++) {
-      let elem = copyChildren(props.children, i)
+      const elem = copyChildren(props.children, i)
       elems.push(elem)
     }
     return elems
