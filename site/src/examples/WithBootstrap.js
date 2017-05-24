@@ -6,7 +6,6 @@ import Repeater from '../../../src'
 import React from 'react'
 
 const FieldGroup = ({ id, label, help, ...props }) => {
-  console.log('--->>>>')
   return (
     <FormGroup controlId={id}>
       <ControlLabel>{label}</ControlLabel>
