@@ -11,7 +11,7 @@ const rptHOC = (Target, nProps) => {
       return <Target { ...{ ...this.props, ...nProps } } />
     }
   }
-}
+} 
 
 class Cell extends React.Component {
 	constructor(props) {
@@ -19,10 +19,21 @@ class Cell extends React.Component {
 		this.nChildren = undefined
 		this.state = {}
 	}
-	getOnChange(cb) {
-		const { nDataValues } = this.state
+	shouldComponentUpdate(nP) {
+		const { cellValues } = this.props,
+			  cellValuesDiff = (JSON.stringify(cellValues)!==JSON.stringify(nP.cellValues))
+		if (cellValuesDiff) {
+			return true
+		} else {
+			return false
+		}
+	}
+	getOnChange(rptKey, cb) {
+		const { nDataValues } = this.state,
+			  { onUpdate, index } = this.props
 		return (e) => {
 			console.log('CELL ON CHANGE')
+			onUpdate(index, rptKey, e.target.value)
 			if (isFunction(cb)) cb(e, nDataValues)
 		}
 	}
@@ -31,10 +42,10 @@ class Cell extends React.Component {
 		this.assignOnChange(children)
 	}
 	assignOnChange(children) {
-		console.log('ASSIGN ON CHANGE')
 		const nChildren = React.Children.map(children, (child) => {
+			const rptKey = child.props['data-rpt-key']
 			if(isComp(child)) {
-				const onChange = this.getOnChange(child.props.onChange)
+				const onChange = this.getOnChange(rptKey, child.props.onChange)
 				const Child = rptHOC(child.type, { onChange })
 				return <Child />
 			}
@@ -46,6 +57,7 @@ class Cell extends React.Component {
 	}
 	render() {
 		const { nChildren } = this
+		console.log(':::::: CELL ', this.props.index, 'UPDATED ::::::')
 		return (
 			<section>
 				{ nChildren }

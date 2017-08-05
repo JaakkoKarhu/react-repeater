@@ -18,6 +18,13 @@ const FieldGroup = ({ id, label, help, ...props }) => {
 class WithBootstrap extends React.Component {
   constructor(props) {
     super(props)
+    this.state = {
+      data: [
+        {
+          "bootstrap-2": 'This is initial value'
+        }
+      ]
+    }
   }
 
   onChange = (e, data) => {
@@ -25,17 +32,28 @@ class WithBootstrap extends React.Component {
     this.setState({ data })
   }
 
+  onUpdate = (data) => {
+    console.log('DATA', data)
+    this.setState({ data }) 
+  }
+
   render() {
     return (
       <section>
         <h1>With Bootstrap</h1>
         <Col xs={ 12 }>
-          <Repeater>
+          <Repeater data={ this.state.data }
+                    onUpdate={ this.onUpdate.bind(this) }>
             <FieldGroup id="formControlsText"
                         type="text"
                         label="Text"
-                        data-rpt-key="bootstrap"
-                        onChange={ this.onChange }
+                        data-rpt-key="bootstrap-1"
+                        placeholder="Enter text"
+            />
+            <FieldGroup id="formControlsText"
+                        type="text"
+                        label="Text"
+                        data-rpt-key="bootstrap-2"
                         placeholder="Enter text"
             />
             <div>
