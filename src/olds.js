@@ -1,16 +1,5 @@
 /*
 
-const isMappable = (t) => {
-  return t=='input'||t=='textarea'
-}
-
-const getInitialValue = (inputType, propValue, checked) => {
-  if (['checkbox', 'radio'].indexOf(inputType) > -1) {
-    return checked ? propValue : null
-  } else {
-    return propValue || null
-  }
-}
 
 const getValue = (inputType, propValue, mappedValue) => {
   switch (inputType) {

@@ -86,7 +86,7 @@ class Repeater extends React.Component {
     onUpdate(nData)
   }
 
-  getElems = () => {
+  getCells = () => {
     const { children, data } = this.props,
           { onCellUpdate } = this,
           elems = []
@@ -116,7 +116,7 @@ class Repeater extends React.Component {
           { data } = this.props
     return (
       <div className={ `repeater` }>
-        { this.getElems() }
+        { this.getCells() }
         <div className={ `repeater-add` } // Convert to button
              onClick={ () => onAdd(data.length) } />
       </div>
