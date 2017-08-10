@@ -6,7 +6,7 @@ import PropPipe from 'react-prop-pipe'
 import Repeater from '../../../src'
 import React from 'react'
 
-const FieldGroup = ({ id, label, help, ...props }) => {
+const FieldGroup = ({ id, label, ...props }) => {
   return (
     <FormGroup controlId={id}>
       <ControlLabel>{label}</ControlLabel>
@@ -15,13 +15,25 @@ const FieldGroup = ({ id, label, help, ...props }) => {
   );
 }
 
+const WrapperComp = (props) => {
+  return (
+    <span style={ { border: 'solid thin red'} }>
+      { props.children }
+    </span>
+  )
+}
+
 class WithBootstrap extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       data: [
         {
-          "bootstrap-2": 'This is initial value'
+          "basic-input": 'This is initial value for basic input',
+          "bootstrap-1": 'This is initial value for 1',
+          "bootstrap-2": 'This is initial value for 2',
+          "bootstrap-3": 'This is initial value for 3',
+          "bootstrap-4": 'This is initial value for 4'
         }
       ]
     }
@@ -56,6 +68,15 @@ class WithBootstrap extends React.Component {
                         data-rpt-key="bootstrap-2"
                         placeholder="Enter text"
             />
+            <ControlLabel>This is label for third</ControlLabel>
+            <FormControl placeholder="Enter text to third"
+                         data-rpt-key="bootstrap-3" />
+            <div>
+              <WrapperComp>
+                <FormControl placeholder="Enter text to fourth"
+                             data-rpt-key="bootstrap-4" />
+              </WrapperComp>
+            </div>
             <div>
               <input data-rpt-key="basic-input" />
             </div>
@@ -67,3 +88,9 @@ class WithBootstrap extends React.Component {
 }
 
 export default WithBootstrap
+
+/*
+
+
+
+*/

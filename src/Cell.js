@@ -1,8 +1,9 @@
 /* TODO:
  *
- * Render nested components, intputs, whatever
  * Assign mapped value to normal input
  * Don't assign onChange, if no repeater key?
+ * Fix undefined key on model mapping
+ * Implement special input support
  */
 
 import React from 'react'
@@ -49,11 +50,14 @@ class Cell extends React.Component {
 		this.nChildren = this.assignOnChange(children)
 	}
 
+	/* Everytime children are 'initialised', this should
+	 * be called.
+	 */
 	assignOnChange(children) {
 		return React.Children.map(children, (child) => {
 
 			if(typeof child == 'string') {
-				return child
+				return { string: child }
 			}
 
 			const rptKey = child.props['data-rpt-key'],
@@ -63,35 +67,56 @@ class Cell extends React.Component {
 				const onChange = this.getOnChange(rptKey, child.props.onChange)
 				const Child = rptHOC(child.type, { onChange })
 				// Store object HOC to this to avoid HOCcing on render
-				return { component: Child, props: { ...child.props, children: nGrandChildren } }
+				return {
+					component: Child,
+					props: child.props,
+					children: nGrandChildren
+				}
 			}// These two conditionals could be combined. Only change is assigning onChange
 			else if (isMappable(child.type)&&isNotSubmit) {
 				// Store to object, like with component, in here?
-				return React.cloneElement(child, { ...child.props, onChange: this.getOnChange(rptKey, undefined, child.type) }, nGrandChildren)
+				// return React.cloneElement(child, { ...child.props, onChange: this.getOnChange(rptKey, undefined, child.type) }, nGrandChildren)
+				return {
+					element: child,
+					props: {
+						...child.props,
+						onChange: this.getOnChange(rptKey, undefined, child.type)
+					},
+					children: nGrandChildren
+				}
 			} else {
-				return React.cloneElement(child, { ...child.props }, nGrandChildren)
+				//return React.cloneElement(child, { ...child.props }, nGrandChildren)
+				return {
+					element: child,
+					props: child.props,
+					children: nGrandChildren
+				}
 			}
 		})
 	}
 
 	getChildren(children) {
 		const { cellValues } = this.props
-		const elems = children.map((child) => {
-			if (typeof child == 'object'&&child.component) {
-				const rptkey = child.props['data-rpt-key']
-				const Child = child.component,
+		const elems = children.map((childObj) => {
+			const getGrandChildren = (cn) => {
+				return cn
+					   ? this.getChildren(cn)
+					   : undefined
+			}
+			const isChildObj = typeof childObj == 'object'
+			if (isChildObj&&childObj.component) {
+				const rptkey = childObj.props['data-rpt-key']
+				const Child = childObj.component,
 					  value = cellValues[rptkey] || ''
-					  // clear this terniary
-					  const __children = child.props.children
-					   ? this.getChildren(child.props.children)
-					   : child.props.children
-				return <Child { ...{ ...child.props, children: __children, value } }/>
+				const grandChildren = getGrandChildren(childObj.children)
+				return <Child { ...{ ...childObj.props, children: grandChildren, value } }/>
+			} else if (isChildObj&&childObj.element) {
+				const grandChildren = getGrandChildren(childObj.children)
+				return React.cloneElement(childObj.element, childObj.props, grandChildren)
+			} else if (isChildObj&&childObj.string) {
+				return childObj.string
 			} else {
-				// Error caused here because of the component inside div, which is
-				// still an object. To clear the logic, convert assignOnChange()
-				// to always store the children in to object, and then reassign here
-				console.log('CHILD', children)
-				return child
+				console.warn('Uh-oh. Seems like the childObj was not properly initialised. This should never happen. You have a bug in your system.')
 			}
 		})
 		return elems
