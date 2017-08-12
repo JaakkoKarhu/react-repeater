@@ -124,4 +124,9 @@ class Repeater extends React.Component {
   }
 }
 
+Repeater.defaultProps = {
+  data: [{}],
+  onUpdate: () => {}
+}
+
 export default Repeater

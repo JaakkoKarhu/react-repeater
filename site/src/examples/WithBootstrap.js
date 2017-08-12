@@ -34,6 +34,13 @@ class WithBootstrap extends React.Component {
           "bootstrap-2": 'This is initial value for 2',
           "bootstrap-3": 'This is initial value for 3',
           "bootstrap-4": 'This is initial value for 4'
+        },
+        {
+          "basic-input": 'This is initial value for basic input',
+          "bootstrap-1": 'This is initial value for 1',
+          "bootstrap-2": 'This is initial value for 2',
+          "bootstrap-3": 'This is initial value for 3',
+          "bootstrap-4": 'This is initial value for 4'
         }
       ]
     }
@@ -56,6 +63,24 @@ class WithBootstrap extends React.Component {
         <Col xs={ 12 }>
           <Repeater data={ this.state.data }
                     onUpdate={ this.onUpdate.bind(this) }>
+            
+            <div>
+              <WrapperComp>
+                <FormControl placeholder="Enter text to fourth"
+                             data-rpt-key="bootstrap-4" />
+              </WrapperComp>
+            </div>
+          </Repeater>
+        </Col>
+      </section>
+    )
+  }
+}
+
+export default WithBootstrap
+
+/*
+
             <FieldGroup id="formControlsText"
                         type="text"
                         label="Text"
@@ -72,25 +97,7 @@ class WithBootstrap extends React.Component {
             <FormControl placeholder="Enter text to third"
                          data-rpt-key="bootstrap-3" />
             <div>
-              <WrapperComp>
-                <FormControl placeholder="Enter text to fourth"
-                             data-rpt-key="bootstrap-4" />
-              </WrapperComp>
-            </div>
-            <div>
               <input data-rpt-key="basic-input" />
             </div>
-          </Repeater>
-        </Col>
-      </section>
-    )
-  }
-}
-
-export default WithBootstrap
-
-/*
-
-
 
 */
