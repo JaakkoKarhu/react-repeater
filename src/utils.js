@@ -25,14 +25,13 @@ const getInitialValue = (inputType, propValue, checked) => {
 const getPropValueForSpecial = (type, propValue, mappedValue, rptkey) => {
   switch (type) {
     case 'checkbox':
+    case 'radio':
     	console.log('MATCH VALUES', propValue, mappedValue, rptkey)
     	if (!!rptkey) {
     		return { checked: propValue===mappedValue ? true : false }
     	} else {
     		return { checked: undefined }
-    	}
-    	break
-    case 'radio':
+    	}    
       	return propValue
       	break
     case 'color':

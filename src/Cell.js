@@ -140,7 +140,7 @@ class Cell extends React.Component {
     }
     render() {
         const { nChildren } = this
-        console.log(':::::: CELL ', this.props.index, 'UPDATED ::::::')
+        //console.log(':::::: CELL ', this.props.index, 'UPDATED ::::::')
         return (
             <section>
                 { this.getChildren(nChildren) }
