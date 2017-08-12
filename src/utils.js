@@ -37,7 +37,7 @@ const mapModel = (children=this.props.children, model={}) => {
 	    // Note that child type is different than input type passed as prop
 	    // Print details about the child, to make it more easy to find
 	    console.warn('[react-repeater]:Input is missing rptKey. Data cannot be mapped to state properly. Please add rptKey prop to child element.')
-	  } else if (isMappable(child.type)&&isNotSubmit||isComp(child)) {
+	  } else if (isMappable(child.type)&&!!rptKey&&(isNotSubmit||isComp(child))) {
 	    nModel[rptKey] = getInitialValue(inputType, value, checked )
 	  }
 	  if (propsCp.children) {
