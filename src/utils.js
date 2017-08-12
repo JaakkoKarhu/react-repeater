@@ -35,7 +35,7 @@ const getPropValueForSpecial = (type, propValue, mappedValue, rptkey) => {
       	return propValue
       	break
     case 'color':
-      	return mappedValue || '#ffffff'
+      	return { value: mappedValue || propValue || '#ffffff' }
       	break;
     default:
       	return mappedValue || ''
