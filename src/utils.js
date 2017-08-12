@@ -10,9 +10,9 @@ const isFunction = (f) => {
   return f && getType.toString.call(f) === '[object Function]'
 }
 
-const isMappable = (t) => {
-  return t=='input'||t=='textarea'
-}
+const isMappable = (t) => { return t=='input'||t=='textarea' }
+
+const isSpecialType = (t) => { return  t=='checkbox'|| t=='radio'||t=='color' }
 
 const getInitialValue = (inputType, propValue, checked) => {
   if (['checkbox', 'radio'].indexOf(inputType) > -1) {
@@ -20,6 +20,38 @@ const getInitialValue = (inputType, propValue, checked) => {
   } else {
     return propValue || null
   }
+}
+
+const getPropValueForSpecial = (type, propValue, mappedValue, rptkey) => {
+  switch (type) {
+    case 'checkbox':
+    	console.log('MATCH VALUES', propValue, mappedValue, rptkey)
+    	if (!!rptkey) {
+    		return { checked: propValue===mappedValue ? true : false }
+    	} else {
+    		return { checked: undefined }
+    	}
+    	break
+    case 'radio':
+      	return propValue
+      	break
+    case 'color':
+      	return mappedValue || '#ffffff'
+      	break;
+    default:
+      	return mappedValue || ''
+  }
+}
+
+const getSpecialOnChangeValue = (e) => {
+	const { type, checked, value } = e.target
+	switch (type) {
+		case 'checkbox':
+			return checked ? value : null
+			break;
+		default:
+			return value
+	}
 }
 
 const mapModel = (children=this.props.children, model={}) => {
@@ -50,6 +82,10 @@ const mapModel = (children=this.props.children, model={}) => {
 
 exports.isComp = isComp
 exports.isFunction = isFunction
+exports.isSpecialType = isSpecialType
 exports.getInitialValue = getInitialValue
+exports.getSpecialOnChangeValue = getSpecialOnChangeValue
+exports.getPropValueForSpecial = getPropValueForSpecial
 exports.isMappable = isMappable
 exports.mapModel = mapModel
+//exports.getValueForSpecial = getValueForSpecial
