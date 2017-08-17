@@ -26,7 +26,6 @@ const getPropValueForSpecial = (type, propValue, mappedValue, rptkey) => {
   switch (type) {
     case 'checkbox':
     case 'radio':
-    	console.log('MATCH VALUES', propValue, mappedValue, rptkey)
     	if (!!rptkey) {
     		return { checked: propValue===mappedValue ? true : false }
     	} else {
@@ -87,4 +86,3 @@ exports.getSpecialOnChangeValue = getSpecialOnChangeValue
 exports.getPropValueForSpecial = getPropValueForSpecial
 exports.isMappable = isMappable
 exports.mapModel = mapModel
-//exports.getValueForSpecial = getValueForSpecial

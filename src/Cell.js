@@ -1,13 +1,12 @@
 /* TODO:
  *
- * Assign mapped value to normal input
  * Don't assign onChange, if no repeater key?
  * Fix undefined key on model mapping
- * Implement special input support
  */
 
 import React from 'react'
-import Children from 'react-children-utilities';
+import Children from 'react-children-utilities'
+import warnChild from './warnChild.js'
 import {
     isComp,
     isFunction,
@@ -37,6 +36,7 @@ class Cell extends React.Component {
     }
     componentWillMount() {
         const { children } = this.props
+        warnChild(children)
         this.nChildren = this.assignOnChange(children)
     }
 
@@ -55,7 +55,7 @@ class Cell extends React.Component {
         console.log('RPTKEY', rptKey)
         return (e) => {
             const value = getSpecialOnChangeValue(e)
-            onUpdate(index, rptKey, value)
+            if(!!rptKey) onUpdate(index, rptKey, value)
             if (isFunction(cb)) cb(e)
         }
     }
