@@ -26,56 +26,56 @@ const getPropValueForSpecial = (type, propValue, mappedValue, rptkey) => {
   switch (type) {
     case 'checkbox':
     case 'radio':
-    	if (!!rptkey) {
-    		return { checked: propValue===mappedValue ? true : false }
-    	} else {
-    		return { checked: undefined }
-    	}    
-      	return propValue
-      	break
+        if (!!rptkey) {
+            return { checked: propValue===mappedValue ? true : false }
+        } else {
+            return { checked: undefined }
+        }    
+        return propValue
+        break
     case 'color':
-      	return { value: mappedValue || propValue || '#ffffff' }
-      	break;
+        return { value: mappedValue || propValue || '#ffffff' }
+        break;
     default:
-      	return mappedValue || ''
+        return mappedValue || ''
   }
 }
 
 const getSpecialOnChangeValue = (e) => {
-	const { type, checked, value } = e.target
-	switch (type) {
-		case 'checkbox':
-			return checked ? value : null
-			break;
-		default:
-			return value
-	}
+    const { type, checked, value } = e.target
+    switch (type) {
+        case 'checkbox':
+            return checked ? value : null
+            break;
+        default:
+            return value
+    }
 }
 
 const mapModel = (children=this.props.children, model={}) => {
-	let nModel = {}
-	React.Children.map(children, (child) => {
-	  /* Spreading here to avoid undefined errors.
-	   * Probably not the most efficient way.
-	   */
-	  const propsCp = { ...child.props },
-	        { value, checked} = propsCp,
-	        inputType = propsCp.type,
-	        rptKey = propsCp['data-rpt-key'],
-	        isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1)
-	  if (isMappable(child.type)&&isNotSubmit&&!rptKey) {
-	    // Note that child type is different than input type passed as prop
-	    // Print details about the child, to make it more easy to find
-	    console.warn('[react-repeater]:Input is missing rptKey. Data cannot be mapped to state properly. Please add rptKey prop to child element.')
-	  } else if (isMappable(child.type)&&!!rptKey&&(isNotSubmit||isComp(child))) {
-	    nModel[rptKey] = getInitialValue(inputType, value, checked )
-	  }
-	  if (propsCp.children) {
-	    nModel = mapModel(propsCp.children, nModel)
-	  }
-	})
+    let nModel = {}
+    React.Children.map(children, (child) => {
+      /* Spreading here to avoid undefined errors.
+       * Probably not the most efficient way.
+       */
+      const propsCp = { ...child.props },
+            { value, checked} = propsCp,
+            inputType = propsCp.type,
+            rptKey = propsCp['data-rpt-key'],
+            isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(inputType) == -1)
+      if (isMappable(child.type)&&isNotSubmit&&!rptKey) {
+        // Note that child type is different than input type passed as prop
+        // Print details about the child, to make it more easy to find
+        console.warn('[react-repeater]:Input is missing rptKey. Data cannot be mapped to state properly. Please add rptKey prop to child element.')
+      } else if (isMappable(child.type)&&!!rptKey&&(isNotSubmit||isComp(child))) {
+        nModel[rptKey] = getInitialValue(inputType, value, checked )
+      }
+      if (propsCp.children) {
+        nModel = mapModel(propsCp.children, nModel)
+      }
+    })
 
-	return { ...model, ...nModel}
+    return { ...model, ...nModel}
 }
 
 exports.isComp = isComp
