@@ -1,10 +1,15 @@
 /*
  * TODO
- * 
- * - Fix the radio button bug on examples
+ *
+ * - Investigate the radio button changes all values on change bug
+ * - Fix BS not changing the value on change bug (OF WHAT??)
+ * - Write warning, if inputRef not set on BS radio
+ * - Support select and select multiple
+ * - Troubleshoot bootstrap radio and checkbox <-- means when tabs?
+ * - Don't assign empty values to returned data
  * - Add validation rule proptype/callback?
  * - Nested repeater
- * - Complex conditional repeater?
+ * - Handle content change
  * - Test: two inputs of a same type
  * - With Bootstrap
  * - Callback
