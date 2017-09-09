@@ -2,7 +2,19 @@
  *
  * Don't assign onChange, if no repeater key?
  * Fix undefined key on model mapping
+ * Add warning, if ChildObject is bootstrap input and not having value?
  */
+
+ /* TESTS:
+  *
+  * - Components with controlled values/non controlled values
+  */
+
+/* DOCS:
+ *
+ * Remember to add value to Bootstrap radio components
+ */
+
 
 import React from 'react'
 import Children from 'react-children-utilities'
@@ -36,7 +48,7 @@ class Cell extends React.Component {
     }
     componentWillMount() {
         const { children } = this.props
-        warnChild(children)
+        //warnChild(children) // What is this??
         this.nChildren = this.assignOnChange(children)
     }
 
@@ -50,9 +62,8 @@ class Cell extends React.Component {
         }
     }
 
-    getOnChange(rptKey, cb, type) {
+    getOnChange(rptKey, cb, child) {
         const { onUpdate, index } = this.props
-        console.log('RPTKEY', rptKey)
         return (e) => {
             const value = getSpecialOnChangeValue(e)
             if(!!rptKey) onUpdate(index, rptKey, value)
@@ -74,7 +85,7 @@ class Cell extends React.Component {
                   isNotSubmit = (['button', 'image', 'reset', 'submit'].indexOf(child.props.type) == -1)
             const nGrandChildren = this.assignOnChange(child.props.children)
             if(isComp(child)) {
-                const onChange = this.getOnChange(rptKey, child.props.onChange)
+                const onChange = this.getOnChange(rptKey, child.props.onChange, child)
                 const Child = rptHOC(child.type, { onChange })
                 // Store object HOC to this to avoid HOCcing on render
                 return {
@@ -109,14 +120,15 @@ class Cell extends React.Component {
         const elems = children.map((childObj) => {
             const getGrandChildren = (cn) => {
                 return cn
-                       ? this.getChildren(cn)
+                       ? this.getChildren(cn) // Grand children -> children of the passed children
                        : undefined
             }
             const isChildObj = typeof childObj == 'object'
             if (isChildObj&&childObj.component) {
                 const rptkey = childObj.props['data-rpt-key'],
                       Child = childObj.component,
-                      value = cellValues[rptkey] || '',
+                      // Check for childObj.props.value added for making bootstrap radio to work. Careful with the side effects
+                      value = childObj.props.value || cellValues[rptkey] || '',
                       grandChildren = getGrandChildren(childObj.children)
                 return <Child { ...{ ...childObj.props, children: grandChildren, value } }/>
             } else if (isChildObj&&childObj.element) {
@@ -126,7 +138,6 @@ class Cell extends React.Component {
                 let nProps = { ...childObj.props }
                       if (isSpecialType(type)) {
                         const modProps = getPropValueForSpecial(type, value, cellValues[rptkey], rptkey)
-                        console.log('MOD PROPS', modProps)
                         nProps = { ...nProps, ...modProps}
                       }
                 return React.cloneElement(childObj.element, nProps, grandChildren)
@@ -140,7 +151,6 @@ class Cell extends React.Component {
     }
     render() {
         const { nChildren } = this
-        //console.log(':::::: CELL ', this.props.index, 'UPDATED ::::::')
         return (
             <section>
                 { this.getChildren(nChildren) }
