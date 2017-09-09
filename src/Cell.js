@@ -1,8 +1,12 @@
 /* TODO:
  *
  * Don't assign onChange, if no repeater key?
+ * Take care of select multiple input!
  * Fix undefined key on model mapping
  * Add warning, if ChildObject is bootstrap input and not having value?
+ * Add initial values to bootstrap special components as well?
+ * Add warning, if data-rpt-key not set: at least the bootstrap inputs are not working without it
+ * Handle files/file uploadds??
  */
 
  /* TESTS:
@@ -65,6 +69,7 @@ class Cell extends React.Component {
     getOnChange(rptKey, cb, child) {
         const { onUpdate, index } = this.props
         return (e) => {
+            console.log('ON CHANGE', e.target.value)
             const value = getSpecialOnChangeValue(e)
             if(!!rptKey) onUpdate(index, rptKey, value)
             if (isFunction(cb)) cb(e)
