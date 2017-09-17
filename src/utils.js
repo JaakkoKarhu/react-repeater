@@ -10,7 +10,7 @@ const isFunction = (f) => {
   return f && getType.toString.call(f) === '[object Function]'
 }
 
-const isMappable = (t) => { return t=='input'||t=='textarea' }
+const isMappable = (t) => { return t=='input'||'select'||t=='textarea' }
 
 const isSpecialType = (t) => { return  t=='checkbox'|| t=='radio'||t=='color' }
 
@@ -42,10 +42,20 @@ const getPropValueForSpecial = (type, propValue, mappedValue, rptkey) => {
 }
 
 const getSpecialOnChangeValue = (e) => {
-    const { type, checked, value } = e.target
+    const { type, checked, value, options } = e.target
     switch (type) {
         case 'checkbox':
             return checked ? value : null
+            break;
+        case 'select-multiple':
+            const selections = []
+            for(let i = 0; options.length > i; i++) {
+              const option = options[i]
+              if (option.selected) {
+                selections.push(option.value)
+              }
+            }
+            return selections
             break;
         default:
             return value
@@ -86,3 +96,4 @@ exports.getSpecialOnChangeValue = getSpecialOnChangeValue
 exports.getPropValueForSpecial = getPropValueForSpecial
 exports.isMappable = isMappable
 exports.mapModel = mapModel
+  
